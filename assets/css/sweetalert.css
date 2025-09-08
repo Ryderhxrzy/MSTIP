@@ -1,0 +1,29 @@
+.swal2-confirm.custom-swal-button {
+      background: var(--primary-gradient) !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 12px 24px !important;
+      color: white !important;
+      font-weight: 600 !important;
+      box-shadow: 0 2px 8px -2px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    .swal2-confirm.custom-swal-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px -3px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    .swal2-deny.custom-swal-button-secondary {
+      background: transparent !important;
+      border: 2px solid #e5e7eb !important;
+      color: var(--dark-color) !important;
+      border-radius: 8px !important;
+      padding: 10px 22px !important;
+      font-weight: 600 !important;
+    }
+    
+    .swal2-deny.custom-swal-button-secondary:hover {
+      background: #f9fafb !important;
+      border-color: var(--primary-color) !important;
+      color: var(--primary-color) !important;
+    }

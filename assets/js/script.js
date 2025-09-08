@@ -367,7 +367,7 @@ let currentStep = 1;
         submitText.style.display = 'flex';
         loading.style.display = 'none';
         
-        // Show success message
+        // Show success message with SweetAlert
         showSuccess('Registration successful! Welcome to MSTIP.');
         
         // In a real application, you would submit the form data here
@@ -376,61 +376,32 @@ let currentStep = 1;
     }
 
     function showError(message) {
-      const toast = createToast('error', message);
-      document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.remove();
-      }, 5000);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: message,
+        confirmButtonText: 'Try Again',
+        customClass: {
+          confirmButton: 'custom-swal-button'
+        },
+        buttonsStyling: false
+      });
     }
 
     function showSuccess(message) {
-      const toast = createToast('success', message);
-      document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.remove();
-      }, 5000);
-    }
-
-    function createToast(type, message) {
-      const toast = document.createElement('div');
-      toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        padding: 12px 16px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        font-size: 0.85rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        animation: slideInRight 0.3s ease-out;
-        max-width: 300px;
-        background: ${type === 'error' ? '#ef4444' : '#10b981'};
-      `;
-      
-      toast.innerHTML = `
-        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-        ${message}
-      `;
-      
-      return toast;
-    }
-
-    // Add CSS for toast animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: message,
+        confirmButtonText: 'Continue',
+        customClass: {
+          confirmButton: 'custom-swal-button'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to login page or dashboard after successful registration
+          window.location.href = 'login.html';
         }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    `;
-    document.head.appendChild(style);
+      });
+    }

@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Custom CSS -->
   <link href="assets/css/register.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/sweetalert.css">
 </head>
 
 <body>
@@ -191,13 +192,14 @@
 
       <!-- Login Link -->
       <div class="login-link">
-        Already have an account? <a href="login.html">Sign in here</a>
+        Already have an account? <a href="login.php">Sign in here</a>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/script.js"></script>
 </body>
 </html>
