@@ -12,6 +12,9 @@ CREATE TABLE User (
     CONSTRAINT chk_email CHECK (Email_Address LIKE '%@mstip.edu.ph')
 );
 
+INSERT INTO User (User_ID, Email_Address, Password, User_type)
+VALUES ('A123456', 'admin@mstip.edu.ph', 'test', 'Admin');
+
 -- Create the ID table
 CREATE TABLE User_Information (
     ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +29,5 @@ CREATE TABLE User_Information (
     Skills TEXT,
     Resume VARCHAR(255),
     LinkedIn_Profile VARCHAR(255),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Email_Address) REFERENCES User(Email_Address)
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
