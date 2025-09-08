@@ -105,6 +105,12 @@
             </div>
             <div class="col">
               <div class="form-group">
+                <label class="form-label">Middle Name</label>
+                <input type="text" class="form-control" name="middle_name" id="middleName" required>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
                 <label class="form-label">Last Name</label>
                 <input type="text" class="form-control" name="last_name" id="lastName" required>
               </div>
@@ -150,6 +156,14 @@
                   <small>PDF, DOC, DOCX (Max 5MB)</small>
                 </div>
               </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">LinkedIn Profile</label>
+            <div class="input-group">
+              <input type="text" class="form-control" name="linkedin_profile" id="linkedin_profile" required>
+              <i class="input-icon fas fa-user"></i>
             </div>
           </div>
 
