@@ -99,13 +99,15 @@ let currentStep = 1;
     function validateEmail() {
       const email = this.value;
       const feedback = document.getElementById('emailFeedback');
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      // Only accept @mstip.edu.ph emails
+      const emailRegex = /^[^\s@]+@mstip\.edu\.ph$/;
       
       if (!email) {
         setFieldState(this, feedback, false, '');
         validationState.email = false;
       } else if (!emailRegex.test(email)) {
-        setFieldState(this, feedback, false, 'Please enter a valid email address');
+        setFieldState(this, feedback, false, 'Only @mstip.edu.ph email addresses are accepted');
         validationState.email = false;
       } else {
         setFieldState(this, feedback, true, 'Email looks good!');
@@ -403,10 +405,10 @@ let currentStep = 1;
         color: white;
         font-weight: 500;
         font-size: 0.85rem;
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: slideInRight 0.3s ease-out;
         max-width: 300px;
-        background: ${type === 'error' ? 'var(--danger-color)' : 'var(--success-color)'};
+        background: ${type === 'error' ? '#ef4444' : '#10b981'};
       `;
       
       toast.innerHTML = `

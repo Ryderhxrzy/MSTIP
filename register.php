@@ -180,7 +180,7 @@
             </button>
             <button type="submit" class="btn btn-primary" id="submitForm">
               <span class="submit-text">
-                <i class="fas fa-paper-plane"></i> Complete Registration
+                <i class="fas fa-paper-plane"></i> Submit
               </span>
               <div class="loading" style="display: none;"></div>
             </button>
