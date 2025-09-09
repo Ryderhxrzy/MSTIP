@@ -27,3 +27,24 @@
       border-color: var(--primary-color) !important;
       color: var(--primary-color) !important;
     }
+
+    #loginBtn,
+    #submitForm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    #loginBtn .submit-text,
+    #submitForm .submit-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    #loginBtn .loading,
+    #submitForm .loading {
+        display: none;
+    }
+

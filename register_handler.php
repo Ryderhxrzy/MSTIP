@@ -104,8 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_autocommit($conn, true);
         
         // Clean up uploaded file if exists
-        if (isset($resume_filename) && file_exists("files/" . $resume_filename)) {
-            unlink("files/" . $resume_filename);
+        if (isset($resume_filename) && file_exists("./files/" . $resume_filename)) {
+            unlink("./files/" . $resume_filename);
         }
 
         echo json_encode([

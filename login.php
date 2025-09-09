@@ -22,7 +22,7 @@
     <!-- Header -->
     <div class="login-header">
       <span>
-        <img src="assets/images/logocap.png" alt="logo" width="80" height="64">
+        <img src="assets/images/mstip_logo.png" alt="logo" width="110" height="100">
       </span>
       <h2><i class="fas fa-user-graduate"></i> Welcome Back</h2>
       <p style="margin-bottom: 20px;">Sign in to continue your job search</p>
@@ -75,5 +75,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="assets/js/scripts.js"></script>
 </body>
 </html>
