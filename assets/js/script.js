@@ -344,25 +344,55 @@ function handleSubmit(e) {
   const submitText = submitBtn.querySelector('.submit-text');
   const loading = submitBtn.querySelector('.loading');
 
+  // Show loading state
   submitBtn.disabled = true;
   submitText.style.display = 'none';
   loading.style.display = 'inline-block';
 
-  setTimeout(() => {
+  // Prepare form data
+  const formData = new FormData(document.getElementById('registrationForm'));
+
+  // Send AJAX request
+  fetch('register_handler.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Reset button state
     submitBtn.disabled = false;
     submitText.style.display = 'flex';
     loading.style.display = 'none';
 
-    showSuccess('Registration successful! Welcome to MSTIP.');
-  }, 2000);
+    if (data.success) {
+      showSuccess(data.message, data.user_id);
+    } else {
+      showError(data.message);
+    }
+  })
+  .catch(error => {
+    // Reset button state
+    submitBtn.disabled = false;
+    submitText.style.display = 'flex';
+    loading.style.display = 'none';
+
+    console.error('Error:', error);
+    showError('An error occurred during registration. Please try again.');
+  });
 }
 
 function showError(message) {
   Swal.fire({
     icon: 'error',
-    title: 'Oops...',
+    title: 'Registration Failed',
     text: message,
     confirmButtonText: 'Try Again',
+    confirmButtonColor: '#dc3545',
     customClass: {
       confirmButton: 'custom-swal-button'
     },
@@ -370,12 +400,20 @@ function showError(message) {
   });
 }
 
-function showSuccess(message) {
+function showSuccess(message, userId = null) {
   Swal.fire({
     icon: 'success',
-    title: 'Success!',
-    text: message,
-    confirmButtonText: 'Continue',
+    title: 'Registration Successful!',
+    html: `
+      <div style="text-align: center;">
+        <p>${message}</p>
+        ${userId ? `<p style="margin-top: 15px;"><strong>Your User ID:</strong> <span style="color: #28a745; font-weight: bold;">${userId}</span></p>` : ''}
+        <p style="margin-top: 15px; color: #6c757d; font-size: 14px;">Please keep your User ID safe for future reference.</p>
+      </div>
+    `,
+    confirmButtonText: 'Continue to Login',
+    confirmButtonColor: '#28a745',
+    allowOutsideClick: false,
     customClass: {
       confirmButton: 'custom-swal-button'
     },

@@ -106,7 +106,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-label">Middle Name</label>
-                <input type="text" class="form-control" name="middle_name" id="middleName" required>
+                <input type="text" class="form-control" name="middle_name" id="middleName">
               </div>
             </div>
             <div class="col">

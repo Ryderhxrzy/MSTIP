@@ -4,30 +4,38 @@ USE MSTIP;
 
 -- Create the User table
 CREATE TABLE User (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    User_ID VARCHAR(50) UNIQUE NOT NULL,
-    Email_Address VARCHAR(100) NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    User_type ENUM('User', 'Admin') NOT NULL,
-    CONSTRAINT chk_email CHECK (Email_Address LIKE '%@mstip.edu.ph')
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(10) UNIQUE NOT NULL,
+    email_address VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    user_type ENUM('User', 'Admin') DEFAULT 'User',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status ENUM('Active', 'Inactive') DEFAULT 'Active',
+    CONSTRAINT chk_email CHECK (email_address LIKE '%@mstip.edu.ph')
 );
 
-INSERT INTO User (User_ID, Email_Address, Password, User_type)
+INSERT INTO User (user_id, email_address, password, user_type)
 VALUES ('A123456', 'admin@mstip.edu.ph', 'test', 'Admin');
 
--- Create the ID table
+-- Create the User_Information table
 CREATE TABLE User_Information (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    User_ID VARCHAR(50) NOT NULL,
-    Email_Address VARCHAR(100) NOT NULL,
-    First_Name VARCHAR(50) NOT NULL,
-    Middle_Name VARCHAR(50),
-    Last_Name VARCHAR(50) NOT NULL,
-    Phone_Number VARCHAR(20) NOT NULL,
-    Course VARCHAR(100) NOT NULL,
-    Year_Graduated YEAR NOT NULL,
-    Skills TEXT,
-    Resume VARCHAR(255),
-    LinkedIn_Profile VARCHAR(255),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(10) NOT NULL,
+    email_address VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100) NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    course VARCHAR(200) NOT NULL,
+    year_graduated INT NOT NULL,
+    skills TEXT NULL,
+    resume VARCHAR(255) NOT NULL,
+    linkedin_profile TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (email_address) REFERENCES User(email_address) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_email (email_address)
 );
