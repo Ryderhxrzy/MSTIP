@@ -22,7 +22,7 @@
     <!-- Header -->
     <div class="register-header">
       <span>
-        <img src="assets/images/logocap.png" alt="logo" width="80" height="64">
+        <img src="assets/images/mstip_logo.png" alt="logo" width="110" height="100">
       </span>
       <h2><i class="fas fa-user-graduate"></i> Join MSTIP</h2>
       <p style="margin-bottom: 20px;">Start your journey to find the perfect job</p>
