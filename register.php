@@ -56,7 +56,7 @@
         <!-- Step 1: Account Information -->
         <div class="form-step active" id="formStep1">
           <div class="form-group">
-            <label class="form-label">Email Address</label>
+            <label class="form-label">Email Address <span class="asterisk"> *</span></label>
             <div class="input-group">
               <input type="email" class="form-control" name="email" id="email" required>
               <i class="input-icon fas fa-envelope"></i>
@@ -65,7 +65,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Password</label>
+            <label class="form-label">Password <span class="asterisk"> *</span></label>
             <div class="input-group">
               <input type="password" class="form-control" name="password" id="password" required>
               <i class="input-icon fas fa-eye" id="passwordToggle"></i>
@@ -79,7 +79,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Confirm Password</label>
+            <label class="form-label">Confirm Password <span class="asterisk"> *</span></label>
             <div class="input-group">
               <input type="password" class="form-control" id="confirmPassword" required>
               <i class="input-icon fas fa-lock"></i>
@@ -99,7 +99,7 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label class="form-label">First Name</label>
+                <label class="form-label">First Name <span class="asterisk"> *</span></label>
                 <input type="text" class="form-control" name="first_name" id="firstName" required>
               </div>
             </div>
@@ -111,14 +111,14 @@
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="form-label">Last Name</label>
+                <label class="form-label">Last Name <span class="asterisk"> *</span></label>
                 <input type="text" class="form-control" name="last_name" id="lastName" required>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Phone Number</label>
+            <label class="form-label">Phone Number <span class="asterisk"> *</span></label>
             <div class="input-group">
               <input type="tel" class="form-control" name="phone" id="phone" required>
               <i class="input-icon fas fa-phone"></i>
@@ -128,25 +128,25 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label class="form-label">Course</label>
+                <label class="form-label">Course <span class="asterisk"> *</span></label>
                 <input type="text" class="form-control" name="course" id="course" required>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="form-label">Year Graduated</label>
+                <label class="form-label">Year Graduated <span class="asterisk"> *</span></label>
                 <input type="number" class="form-control" name="year_grad" id="yearGrad" min="1990" max="2030" required>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Skills</label>
+            <label class="form-label">Skills <span class="asterisk"> *</span></label>
             <textarea class="form-control" name="skills" id="skills" rows="3" placeholder="e.g., Programming, Communication, Leadership, Project Management"></textarea>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Upload Resume</label>
+            <label class="form-label">Upload Resume <span class="asterisk"> *</span></label>
             <div class="file-upload" id="fileUpload">
               <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx" required>
               <label class="file-upload-label" for="resume">
@@ -160,7 +160,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">LinkedIn Profile</label>
+            <label class="form-label">LinkedIn Profile <span class="asterisk"> *</span></label>
             <div class="input-group">
               <input type="text" class="form-control" name="linkedin_profile" id="linkedin_profile" required>
               <i class="input-icon fas fa-user"></i>

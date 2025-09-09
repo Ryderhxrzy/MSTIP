@@ -32,7 +32,7 @@
     <div class="form-container">
       <form id="loginForm" method="POST">
         <div class="form-group">
-          <label class="form-label">Email Address</label>
+          <label class="form-label">Email Address <span class="asterisk"> *</span></label>
           <div class="input-group">
             <input type="email" class="form-control" name="email" id="email" required>
             <i class="input-icon fas fa-envelope"></i>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Password</label>
+          <label class="form-label">Password <span class="asterisk"> *</span></label>
           <div class="input-group">
             <input type="password" class="form-control" name="password" id="password" required>
             <i class="input-icon fas fa-eye" id="passwordToggle"></i>
