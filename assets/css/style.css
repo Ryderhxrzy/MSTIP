@@ -1158,7 +1158,7 @@ a:focus {
   width: 100%;
   height: 0;
   border-radius: 50%;
-  background-color: #1369ce;
+  background: var(--primary-gradient); /* Changed from background-color to background */
   position: absolute;
   bottom: 135%;
   right: 0;
@@ -1177,7 +1177,7 @@ a:focus {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #1369ce;
+  background: var(--primary-gradient); /* Changed from background-color to background */
   position: absolute;
   top: 0;
   left: 0;
@@ -1208,7 +1208,7 @@ a:focus {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: #1369ce;
+  background: var(--primary-gradient); /* Changed from background-color to background */
   position: absolute;
   bottom: -100px;
   left: 0;
@@ -1233,10 +1233,9 @@ a:focus {
 }
 
 .our-team .social li a:hover {
-  color: #1369ce;
+  color: #08135c; /* Use a solid color instead of gradient for text */
   background-color: #f7f5ec;
 }
-
 
 
 body {

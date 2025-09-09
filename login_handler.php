@@ -78,16 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Determine redirect based on user type
-        $redirect_url = 'dashboard.php';
+        $redirect_url = 'home.php';
         switch ($user['user_type']) {
             case 'Admin':
-                $redirect_url = 'admin/dashboard.php';
-                break;
-            case 'Employer':
-                $redirect_url = 'employer/dashboard.php';
+                $redirect_url = 'admin/home.php';
                 break;
             default:
-                $redirect_url = 'student/dashboard.php';
+                $redirect_url = 'student/home.php';
                 break;
         }
 
