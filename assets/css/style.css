@@ -1,3 +1,20 @@
+:root {
+  --primary-color: #667eea;
+  --primary-gradient: linear-gradient(135deg, rgb(8, 19, 92), rgb(0, 119, 255));
+  --hover-primary-gradient: linear-gradient(135deg, rgb(0, 119, 225), rgb(8, 19, 92));
+  --background: rgb(240, 239, 239);
+  --hover-color: rgb(0, 119, 255);
+  --secondary-color: #f093fb;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --dark-color: #1f2937;
+  --light-bg: #f8fafc;
+  --white: #ffffff;
+  --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   color: #0c0c0c;
@@ -58,6 +75,11 @@ body {
   margin-bottom: 0;
 }
 
+.mstip_logo {
+  margin-bottom: 10px;
+  filter: brightness(0) invert(1);
+}
+
 .heading_container.heading_center {
   -webkit-box-align: center;
      -moz-box-align: center;
@@ -111,7 +133,11 @@ a:focus {
 }
 
 .header_section {
+  background: linear-gradient(135deg, rgb(22, 35, 120), rgb(8, 19, 92));
   padding: 15px 0;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-brand {
@@ -147,7 +173,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-  color: yellow;
+  color: rgb(0, 119, 255);
 }
 
 .custom_nav-container .nav_search-btn {
@@ -160,7 +186,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn:hover {
-  color: yellow;
+  color: var(--hover-color)
 }
 
 .custom_nav-container .navbar-toggler {
@@ -296,7 +322,7 @@ a:focus {
 }
 
 .quote_btn-container a:hover {
-  color: yellow;
+  color: var(--hover-color)
 }
 
 /*end header section*/
@@ -342,7 +368,7 @@ a:focus {
 }
 
 .slider_section .detail-box h1 span {
-  color: yellow;
+  color: var(--hover-color)
 }
 
 .slider_section .find_container form .form-group {
@@ -370,23 +396,33 @@ a:focus {
 }
 
 .slider_section .find_container form .btn-box button.btn {
-  display: inline-block;
+  height: 45px;
   padding: 10px 45px;
-  background-color: rgb(58, 187, 238);
-  color: rgb(255, 255, 255);
-  border-radius: 5px;
-  -webkit-transition: all .3s;
-  -o-transition: all .3s;
-  -moz-transition: all .3s;
-  transition: all .3s;
-  border: 1px solid rgb(58, 187, 238);
-  outline: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+  background: var(--primary-gradient);
+  color: var(--white);
+  box-shadow: 0 4px 15px -3px rgba(22, 42, 129, 0.4);
+
   text-transform: uppercase;
 }
 
-.slider_section .find_container form .btn-box button.btn:hover {
-  background-color: transparent;
-  color: yellow;
+.slider_section .find_container form .btn-box button.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--hover-primary-gradient);
+  box-shadow: 0 4px 15px -3px rgba(22, 42, 129, 0.4);
 }
 
 .slider_section .find_container .nice-select:after {
@@ -465,7 +501,7 @@ a:focus {
 }
 
 .slider_section .find_container .job_check_list .styled-checkbox:hover + label:before {
-  background: yellow;
+  background: var(--hover-color)
 }
 
 .slider_section .find_container .job_check_list .styled-checkbox:focus + label:before {
@@ -755,22 +791,32 @@ a:focus {
 }
 
 .job_section .btn-box a {
-  display: inline-block;
-  padding: 10px 45px;
-  background-color: rgb(58, 187, 238);
-  color: #ffffff;
-  border-radius: 5px;
-  -webkit-transition: all .3s;
-  -o-transition: all .3s;
-  -moz-transition: all .3s;
-  transition: all .3s;
-  border: 1px solid rgb(58, 187, 238);
-  outline: none;
+   height: 42px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+  background: var(--primary-gradient);
+  color: var(--white);
+  box-shadow: 0 4px 15px -3px rgba(22, 42, 129, 0.4);
+  text-transform: uppercase;
 }
 
 .job_section .btn-box a:hover {
-  background-color: transparent;
-  color: rgb(58, 187, 238);
+  transform: translateY(-1px);
+  background: var(--hover-primary-gradient);
+  box-shadow: 0 4px 15px -3px rgba(22, 42, 129, 0.4);
 }
 
 .expert_section .box {
@@ -1427,5 +1473,3 @@ body {
 	font-size: 12px;
 	margin-top: 2px;
 }
-
-

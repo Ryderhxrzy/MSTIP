@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>Home - MSTIP Job Search</title>
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,59 +13,24 @@
   <meta name="author" content="MSTIP Team" />
   <title>MSTIP Graduate Job Search</title>
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
   <!-- font awesome style -->
-  <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="../assets/css/font-awesome.min.css" rel="stylesheet" />
   <!-- nice select -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
   <!-- Custom styles for this template -->
-  <link href="assets/css/style.css" rel="stylesheet" />
+  <link href="../assets/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
-  <link href="assets/css/responsive.css" rel="stylesheet" />
+  <link href="../assets/css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
+
   <div class="hero_area">
-    <!-- header section starts -->
-    <header class="header_section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-          <a class="navbar-brand" href="index.html">
-            <span>
-              <img src="assets/images/mstip_logo.png" class="mstip_logo" alt="MSTIP Logo" width="110" height="90">
-            </span>
-          </a>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="job.html">Jobs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="Team.html">About us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="login.html">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                  <span>Login</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </header>
+    <?php include '../includes/user_header.php'; ?>
     <!-- end header section -->
-
     <!-- slider section -->
     <section class="slider_section">
       <div class="container">
@@ -162,7 +127,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/NTC.jpg" alt="National Telecommunication Commission">
+                  <img src="../assets/images/NTC.jpg" alt="National Telecommunication Commission">
                 </div>
                 <div class="detail-box">
                   <h5>National Telecommunication Commission</h5>
@@ -187,7 +152,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/NIA.jpg" alt="National Irrigation Administration">
+                  <img src="../assets/images/NIA.jpg" alt="National Irrigation Administration">
                 </div>
                 <div class="detail-box">
                   <h5>National Irrigation Administration</h5>
@@ -218,7 +183,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/NPO.jpg" alt="National Printing Office">
+                  <img src="../assets/images/NPO.jpg" alt="National Printing Office">
                 </div>
                 <div class="detail-box">
                   <h5>National Printing Office</h5>
@@ -243,7 +208,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/Accenture.jpg" alt="Accenture">
+                  <img src="../assets/images/Accenture.jpg" alt="Accenture">
                 </div>
                 <div class="detail-box">
                   <h5>Accenture</h5>
@@ -268,7 +233,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/Teleperformance.jpg" alt="Teleperformance">
+                  <img src="../assets/images/Teleperformance.jpg" alt="Teleperformance">
                 </div>
                 <div class="detail-box">
                   <h5>Teleperformance</h5>
@@ -293,7 +258,7 @@
             <div class="box">
               <div class="job_content-box">
                 <div class="img-box">
-                  <img src="images/Alorica.jpg" alt="Alorica">
+                  <img src="../assets/images/Alorica.jpg" alt="Alorica">
                 </div>
                 <div class="detail-box">
                   <h5>Alorica</h5>
@@ -335,7 +300,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/MAANDREA.png" alt="Ma. Andrea">
+                <img class="img-fluid" src="../assets/images/MAANDREA.png" alt="Ma. Andrea">
               </div>
               <div class="team-content">
                 <h3 class="name">Ma. Andrea</h3>
@@ -350,7 +315,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/VINCEP.png" alt="Vince Peter">
+                <img class="img-fluid" src="../assets/images/VINCEP.png" alt="Vince Peter">
               </div>
               <div class="team-content">
                 <h3 class="name">Vince Peter</h3>
@@ -365,7 +330,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/FAITHANN.png" alt="Faith Ann">
+                <img class="img-fluid" src="../assets/images/FAITHANN.png" alt="Faith Ann">
               </div>
               <div class="team-content">
                 <h3 class="name">Faith Ann</h3>
@@ -380,7 +345,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/ADRIAN1.png" alt="Adrian">
+                <img class="img-fluid" src="../assets/images/ADRIAN1.png" alt="Adrian">
               </div>
               <div class="team-content">
                 <h3 class="name">Adrian</h3>
@@ -398,83 +363,14 @@
   </section>
   <!-- end expert section -->
 
-  <!-- info section -->
-  <section class="info_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2 info_links">
-          <h4>Menu</h4>
-          <ul>
-            <li class="active">
-              <a href="index.html">Home</a>
-            </li>
-            <li>
-              <a href="Team.html">About</a>
-            </li>
-            <li>
-              <a href="job.html">Jobs</a>
-            </li>
-            <li>
-              <a href="Team.html">Our Team</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h4>Jobs</h4>
-          <p>
-            MSTIP organizes events like "Find Your Calling: Career Exploration" to help students discover their interests and explore potential career paths.
-          </p>
-        </div>
-        <div class="col-md-3">
-          <div class="info_social">
-            <h4>Social Link</h4>
-            <div class="social_container">
-              <div>
-                <a href="#" aria-label="Facebook">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-              </div>
-              <div>
-                <a href="#" aria-label="Instagram">
-                  <i class="fa fa-instagram" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end info_section -->
+    <?php include_once '../includes/user_footer.php' ?>
 
-  <!-- JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-
-  <script>
-    // Initialize nice select
-    $(document).ready(function() {
-      $('select').niceSelect();
-      
-      // Form submission handler
-      $('form').on('submit', function(e) {
-        e.preventDefault();
-        
-        const name = $('#inputPatientName').val();
-        const location = $('#inputLocation').val();
-        const position = $('#inputPosition').val();
-        
-        if (!name || !location || !position) {
-          alert('Please fill in all required fields.');
-          return;
-        }
-        
-        alert('Search submitted successfully! Results will be displayed.');
-        // Add your form submission logic here
-      });
-    });
-  </script>
+    <script src="../assets/js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="../assets/js/bootstrap.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <!-- custom js -->
+    <script src="../assets/js/custom.js"></script>
 </body>
-
 </html>

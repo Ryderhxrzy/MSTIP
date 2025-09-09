@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-include_once 'config/db_config.php';
+include_once 'includes/db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

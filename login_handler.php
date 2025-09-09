@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include_once 'config/db_config.php';
+include_once 'includes/db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
