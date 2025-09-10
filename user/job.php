@@ -1,3 +1,7 @@
+<?php
+  include_once '../includes/db_config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,565 +26,65 @@
 </head>
 <body>
 
-      <?php include '../includes/user_header.php'; ?>
+    <?php include '../includes/user_header.php'; ?>
     <div class="hero-area">
-    <section class="job_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-         JOBS
-        </h2>
-      </div>
-      <div class="job_container">
-        <h4 class="job_heading">
-          Jobs
-        </h4>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NTC.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    National Telecommunication Comission
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱18,000 - ₱30,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NTCommission.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
+      <section class="job_section layout_padding">
+        <div class="container">
+          <div class="heading_container heading_center">
+            <h2>JOBS</h2>
           </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NIA.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    National Irrigation Administration
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Metro Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱20,000 - ₱35,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NIA.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NPO.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    National Printing Office
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱15,000-39,000/mo
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NPO.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Accenture.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Accenture
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Metro Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱20,000 - ₱50,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Accenture.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Teleperformance.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Teleperformance
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Mandaluyong
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱16,000 - ₱27,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Teleperformance.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Alorica.jpg" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Alorica
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Metro Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱15,000 - ₱22,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Alorica.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
+
+          <div class="job_container">
+            <h4 class="job_heading">Available Jobs</h4>
+            <div class="row">
+              <?php
+              $query = "SELECT * FROM job_listings ORDER BY posted_date DESC";
+              $result = mysqli_query($conn, $query);
+
+              if(mysqli_num_rows($result) > 0){
+                  while($row = mysqli_fetch_assoc($result)){
+                      ?>
+                      <div class="col-lg-6">
+                        <div class="box">
+                          <div class="job_content-box">
+                            <div class="img-box">
+                              <img src="<?php echo !empty('../assets/' . $row['image_url']) ? '../assets/' . $row['image_url'] : 'images/default.png'; ?>" alt="Job Image">
+                            </div>
+                            <div class="detail-box">
+                              <h5><?php echo $row['company_name']; ?></h5>
+                              <p><strong><?php echo $row['job_title'] . ' / ' . $row['slots_available'] . ' slots only'; ?></strong></p>
+                              <div class="detail-info">
+                                <h6>
+                                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                  <span><?php echo $row['region']; ?></span>
+                                </h6>
+                                <h6>
+                                  <i class="fa fa-money" aria-hidden="true"></i>
+                                  <span><?php echo $row['salary_range']; ?></span>
+                                </h6>
+                                <h6>
+                                  <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                  <span><?php echo $row['job_type_shift']; ?></span>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="option-box">
+                            <a href="job_detail.php?id=<?php echo $row['job_id']; ?>" class="apply-btn">View Details</a>
+                          </div>
+                        </div>
+                      </div>
+                      <?php
+                  }
+              } else {
+                  echo "<p class='text-center'>No job listings available right now.</p>";
+              }
+              ?>
             </div>
           </div>
         </div>
-      </div>
-      <div class="job_container">
-        <h4 class="job_heading">
-          MSTIP Graduate / Alumni
-        </h4>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/DTI.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Department of Trade and Industry
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Makati
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱35,000 - ₱50,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="DTI.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/DFA.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Department of Foreign Affairs of the Philippines
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Pasay
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱20,000 - ₱30,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="DFA.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-
-
-            
-          
-
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/SSS.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    SSS Main Building
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Metro Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱16,000 - ₱22,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="SSS.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NBI.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    National Bureau of Investigation
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱16,000 - ₱18,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NBI.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/STP.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                   Senate of the Philippines
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Pasay
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱40,000 - ₱50,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Senate.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/WTW.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                   Wills Towers Wastons
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Metro Manila
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱10,000 - ₱30,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="WTW.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/XCELER8.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Xceler8 Technologies, Inc
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Makati
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱28,000 - ₱35,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="XT.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NWMH.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    New World Makati Hotel
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Makati
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱15,000 - ₱20,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NWMH.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/LRA.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Land Registration Authority 
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Quezon City
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱25,000 - ₱30,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="LRA.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/PSC.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Philippines Sports Commission
-                  </h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Makati
-                      </span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>
-                        ₱25,000 - ₱30,000
-                      </span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="PSC.html" class="apply-btn">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
-  </section>
-  </div>
     
     <?php include_once '../includes/user_footer.php' ?>
 

@@ -1,5 +1,14 @@
+    <?php
+        session_start();
 
+        include_once '../includes/db_config.php';
 
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+            header("Location: ../login.php");
+            exit();
+        }
+    ?>
+    
     <!-- header section strats -->
     <header class="header_section">
         <div class="container-fluid">
@@ -28,8 +37,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                     <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>
-                        Login
+                    <span id="user-display">
+                        <?php 
+                            if (isset($_SESSION['first_name'], $_SESSION['last_name'])) {
+                                $fullname = $_SESSION['first_name'] . ' ' . ($_SESSION['middle_name'] ? $_SESSION['middle_name'] . ' ' : '') . $_SESSION['last_name'];
+                                echo htmlspecialchars($fullname);
+                            } else {
+                                echo "Guest";
+                            }
+                        ?>
                     </span>
                     </a>
                 </li>

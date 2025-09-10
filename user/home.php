@@ -282,7 +282,7 @@
         </div>
       </div>
       <div class="btn-box">
-        <a href="job.html">View All</a>
+        <a href="job.php">View All</a>
       </div>
     </div>
   </section>

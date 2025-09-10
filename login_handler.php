@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $redirect_url = 'admin/home.php';
                 break;
             default:
-                $redirect_url = 'student/home.php';
+                $redirect_url = 'user/home.php';
                 break;
         }
 
