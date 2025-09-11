@@ -1,4 +1,5 @@
 <?php
+session_start();
   include_once '../includes/db_config.php';
 ?>
 
@@ -38,7 +39,11 @@
             <h4 class="job_heading">Available Jobs</h4>
             <div class="row">
               <?php
-              $query = "SELECT * FROM job_listings ORDER BY posted_date DESC";
+              // Fixed query to join with regions table and get region_code
+              $query = "SELECT jl.*, r.region_code 
+                        FROM job_listings jl 
+                        JOIN regions r ON jl.region_id = r.region_id 
+                        ORDER BY jl.posted_date DESC";
               $result = mysqli_query($conn, $query);
 
               if(mysqli_num_rows($result) > 0){
@@ -48,23 +53,23 @@
                         <div class="box">
                           <div class="job_content-box">
                             <div class="img-box">
-                              <img src="<?php echo !empty('../assets/' . $row['image_url']) ? '../assets/' . $row['image_url'] : 'images/default.png'; ?>" alt="Job Image">
+                              <img src="<?php echo !empty('../assets/' . $row['image_url']) ? '../assets/' . $row['image_url'] : '../assets/images/default.png'; ?>" alt="Job Image">
                             </div>
                             <div class="detail-box">
-                              <h5><?php echo $row['company_name']; ?></h5>
-                              <p><strong><?php echo $row['job_title'] . ' / ' . $row['slots_available'] . ' slots only'; ?></strong></p>
+                              <h5><?php echo htmlspecialchars($row['company_name']); ?></h5>
+                              <p><?php echo htmlspecialchars($row['job_title'] . ' / ' . $row['slots_available'] . ' slot(s) only'); ?></p>
                               <div class="detail-info">
                                 <h6>
                                   <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                  <span><?php echo $row['region']; ?></span>
+                                  <span><?php echo htmlspecialchars($row['region_code']); ?></span>
                                 </h6>
                                 <h6>
                                   <i class="fa fa-money" aria-hidden="true"></i>
-                                  <span><?php echo $row['salary_range']; ?></span>
+                                  <span><?php echo htmlspecialchars($row['salary_range']); ?></span>
                                 </h6>
                                 <h6>
                                   <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                  <span><?php echo $row['job_type_shift']; ?></span>
+                                  <span><?php echo htmlspecialchars($row['job_type_shift']); ?></span>
                                 </h6>
                               </div>
                             </div>

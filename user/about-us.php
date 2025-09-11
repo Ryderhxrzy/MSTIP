@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,6 +103,33 @@
                 </div>
             </section>
     </div>
+
+    <div class="about_section">
+    <main class="l-card">
+    <section class="l-card__text">
+      <p>
+        Engaging with alumni to provide mentorship opportunities and facilitate networking for current graduates.
+      </p>
+    </section>
+    <section class="l-card__user">
+      <div class="l-card__userInfo">
+        <h4>Mission</h4>
+      </div>
+    </section>
+  </main>
+  <main class="l-card">
+    <section class="l-card__text">
+      <p>
+       Our team expertise that not only facilitates job search but graduates with the necessary tools and to succeed in their careers.
+      </p>
+    </section>
+    <section class="l-card__user">
+      <div class="l-card__userInfo">
+        <h4>Vision</h4>
+      </div>
+    </section>
+  </main>
+  </div>
     
     
     <?php include_once '../includes/user_footer.php' ?>

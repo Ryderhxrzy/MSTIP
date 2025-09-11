@@ -22,7 +22,9 @@
 </head>
     <?php include '../includes/user_header.php'; ?>
 
-    
+    <div class="hero-area">
+        
+    </div>
     
     <?php include_once '../includes/user_footer.php' ?>
 

@@ -8,22 +8,22 @@
           </h4>
           <ul>
             <li>
-              <a href="index.html">
+              <a href="home.php">
                 Home
               </a>
             </li>
             <li>
-              <a href="about.html">
+              <a href="about-us.php">
                 About
               </a>
             </li>
             <li>
-              <a href="job.html">
+              <a href="job.php">
                 Jobs
               </a>
             </li>
             <li>
-              <a href="freelancer.html">
+              <a href="about-us.php">
                 OurTeam
               </a>
             </li>
