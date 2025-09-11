@@ -33,8 +33,14 @@
                         <a class="nav-link" href="about-us.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user" aria-hidden="true"></i>
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="profile-avatar-small mr-2">
+                                <?php 
+                                    $firstInitial = isset($_SESSION['first_name']) ? substr($_SESSION['first_name'], 0, 1) : 'G';
+                                    $lastInitial = isset($_SESSION['last_name']) ? substr($_SESSION['last_name'], 0, 1) : '';
+                                    echo strtoupper($firstInitial . $lastInitial); 
+                                ?>
+                            </div>
                             <span id="user-display">
                                 <?php 
                                     if (isset($_SESSION['first_name'], $_SESSION['last_name'])) {
@@ -48,7 +54,13 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style="min-width:220px; box-shadow:0 4px 12px rgba(0,0,0,0.15); border-radius:10px;">
                             <div class="dropdown-header text-center" style="background:#f5f5f5; padding:15px 10px;">
-                                <i class="fa fa-user-circle fa-2x" style="color:#007bff;"></i>
+                                <div class="profile-avatar-medium mx-auto mb-2">
+                                    <?php 
+                                        $firstInitial = isset($_SESSION['first_name']) ? substr($_SESSION['first_name'], 0, 1) : 'G';
+                                        $lastInitial = isset($_SESSION['last_name']) ? substr($_SESSION['last_name'], 0, 1) : '';
+                                        echo strtoupper($firstInitial . $lastInitial); 
+                                    ?>
+                                </div>
                                 <div style="font-weight:bold; margin-top:8px;">
                                     <?php echo isset($fullname) ? htmlspecialchars($fullname) : "Guest"; ?>
                                 </div>
