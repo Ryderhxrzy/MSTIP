@@ -36,53 +36,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year_graduated = $_POST['year_graduated'];
     $skills = $_POST['skills'];
     $linked_in = $_POST['linkedin_profile'];
+
+    $user_id = $_POST['user_id'];
     
     // Handle resume upload
-    // Handle resume upload
-    $resume_path = $user['resume']; // Keep existing if no new file uploaded
+    $resume_filename = $user['resume']; // Keep existing if no new file uploaded
 
     if (!empty($_FILES['resume']['name'])) {
         $target_dir = "../files/";
-        
-        // Create directory if it doesn't exist
         if (!file_exists($target_dir)) {
             mkdir($target_dir, 0777, true);
         }
         
-        $file_name = time() . '_' . basename($_FILES["resume"]["name"]);
-        $target_file = $target_dir . $file_name;
-        
+        $file_extension = pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION);
+        $resume_filename = $user_id . '_resume_' . time() . '.' . $file_extension;
+        $target_file = $target_dir . $resume_filename;
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         
-        // Allow both PDF and Word documents
         $allowed_types = array('pdf', 'doc', 'docx');
         if (!in_array($fileType, $allowed_types)) {
             $upload_error = "Only PDF and Word documents are allowed.";
         } else {
-            // Check file size (optional - limit to 5MB)
             if ($_FILES["resume"]["size"] > 5000000) {
                 $upload_error = "File is too large. Maximum size is 5MB.";
             } else {
                 if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file)) {
-                    // Delete old resume file if exists and file path is valid
-                    if (!empty($user['resume']) && file_exists($user['resume'])) {
-                        unlink($user['resume']);
+                    // Delete old resume file if it exists
+                    if (!empty($user['resume'])) {
+                        $old_file_path = $target_dir . $user['resume'];
+                        if (file_exists($old_file_path)) {
+                            unlink($old_file_path);
+                        }
                     }
-                    $resume_path = $target_file;
-                    $_SESSION['new_resume'] = $resume_path; // Store for potential preview
+                    $_SESSION['new_resume'] = $resume_filename;
                 } else {
                     $upload_error = "Sorry, there was an error uploading your file.";
                 }
             }
         }
     }
-    
+
     if (!isset($upload_error)) {
         $update = $conn->prepare("UPDATE user_information 
-            SET first_name=?, middle_name=?, last_name=?, phone_number=?, course=?, year_graduated=?, skills=?, resume=?, linked_in=?
+            SET first_name=?, middle_name=?, last_name=?, phone_number=?, course=?, year_graduated=?, skills=?, resume=?, linkedin_profile=?
             WHERE user_id=?");
-        $update->bind_param("ssssssssss", $first_name, $middle_name, $last_name, $phone_number, $course, $year_graduated, $skills, $resume_path, $linked_in, $user_id);
-        
+        $update->bind_param("ssssssssss", $first_name, $middle_name, $last_name, $phone_number, $course, $year_graduated, $skills, $resume_filename, $linked_in, $user_id);
+
         if ($update->execute()) {
             $_SESSION['success_message'] = "Profile updated successfully!";
             header("Location: profile.php");
@@ -217,9 +216,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .resume-info {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+    }
+    .resume-details h6 {
+      word-break: break-all;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      max-width: 100%;
     }
     .resume-details {
       flex-grow: 1;
+    }
+    .apply-btns {
+      background: linear-gradient(45deg, #4e73df, #224abe);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-weight: 600;
+      border-radius: 6px;
+    }
+    .apply-btns:hover {
+      background: linear-gradient(45deg, #224abe, #4e73df);
+      color: white;
     }
   </style>
 </head>
@@ -268,9 +288,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="profile-subtitle"><?php echo htmlspecialchars($user['course']); ?></p>
         <p class="profile-subtitle">Class of <?php echo htmlspecialchars($user['year_graduated']); ?></p>
         
-        <?php if (!empty($user['linked_in'])): ?>
+        <?php if (!empty($user['linkedin_profile'])): ?>
           <div class="mt-4">
-            <a href="<?php echo htmlspecialchars($user['linked_in']); ?>" target="_blank" class="social-link">
+            <a href="<?php echo htmlspecialchars($user['linkedin_profile']); ?>" target="_blank" class="social-link">
               <i class="fa fa-linkedin-square mr-2"></i> LinkedIn Profile
             </a>
           </div>
@@ -294,53 +314,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       
       <!-- Resume Preview Section -->
-      <!-- Resume Preview Section -->
-<?php if (!empty($user['resume'])): ?>
-<div class="profile-card">
-  <h5 class="section-title">Resume Preview</h5>
-  <div class="resume-preview">
-    <div class="resume-info">
-      <div class="file-icon">
-        <?php
-        $file_ext = pathinfo($user['resume'], PATHINFO_EXTENSION);
-        $full_file_path = "../files/" . $user['resume']; // Construct full path from filename
-        
-        if ($file_ext === 'pdf') {
-            echo '<i class="fa fa-file-pdf-o"></i>';
-        } else {
-            echo '<i class="fa fa-file-word-o"></i>';
-        }
-        ?>
+      <?php if (!empty($user['resume'])): ?>
+      <div class="profile-card">
+        <h5 class="section-title">Resume Preview</h5>
+        <div class="resume-preview">
+          <div class="resume-info">
+            <div class="file-icon">
+              <?php
+              $file_ext = pathinfo($user['resume'], PATHINFO_EXTENSION);
+              $full_file_path = "../files/" . $user['resume'];
+              
+              if ($file_ext === 'pdf') {
+                  echo '<i class="fa fa-file-pdf-o"></i>';
+              } else {
+                  echo '<i class="fa fa-file-word-o"></i>';
+              }
+              ?>
+            </div>
+            <div class="resume-details">
+              <h6><?php echo htmlspecialchars($user['resume']); ?></h6>
+              <p class="text-muted mb-1">Uploaded: 
+                <?php 
+                if (file_exists($full_file_path)) {
+                  echo date("F d, Y", filemtime($full_file_path));
+                } else {
+                  echo "Date unavailable";
+                }
+                ?>
+              </p>
+              <p class="text-muted">File type: .<?php echo $file_ext; ?></p>
+            </div>
+          </div>
+          <div class="resume-actions">
+            <?php if (file_exists($full_file_path)): ?>
+              <a href="<?php echo htmlspecialchars($full_file_path); ?>" target="_blank" class="btn btn-primary btn-sm">
+                <i class="fa fa-eye mr-1"></i> View Resume
+              </a>
+              <a href="<?php echo htmlspecialchars($full_file_path); ?>" download class="btn btn-outline-secondary btn-sm ml-2">
+                <i class="fa fa-download mr-1"></i> Download
+              </a>
+            <?php else: ?>
+              <span class="text-danger">File not found</span>
+            <?php endif; ?>
+          </div>
+        </div>
       </div>
-      <div class="resume-details">
-        <h6><?php echo htmlspecialchars($user['resume']); ?></h6>
-        <p class="text-muted mb-1">Uploaded: 
-          <?php 
-          if (file_exists($full_file_path)) {
-            echo date("F d, Y", filemtime($full_file_path));
-          } else {
-            echo "Date unavailable";
-          }
-          ?>
-        </p>
-        <p class="text-muted">File type: .<?php echo $file_ext; ?></p>
-      </div>
-    </div>
-    <div class="resume-actions">
-      <?php if (file_exists($full_file_path)): ?>
-        <a href="<?php echo htmlspecialchars($full_file_path); ?>" target="_blank" class="btn btn-primary btn-sm">
-          <i class="fa fa-eye mr-1"></i> View Resume
-        </a>
-        <a href="<?php echo htmlspecialchars($full_file_path); ?>" download class="btn btn-outline-secondary btn-sm ml-2">
-          <i class="fa fa-download mr-1"></i> Download
-        </a>
-      <?php else: ?>
-        <span class="text-danger">File not found</span>
       <?php endif; ?>
-    </div>
-  </div>
-</div>
-<?php endif; ?>
     </div>
     
     <div class="col-lg-8">
@@ -350,10 +369,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         
         <form method="post" enctype="multipart/form-data" id="profileForm">
+          <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user['user_id']); ?>">
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="user_id" class="font-weight-bold">User ID</label>
-              <input type="text" class="form-control" id="user_id" value="<?php echo htmlspecialchars($user['user_id']); ?>" disabled>
+              <label for="user_id_display" class="font-weight-bold">User ID</label>
+              <input type="text" class="form-control" id="user_id_display" value="<?php echo htmlspecialchars($user['user_id']); ?>" disabled>
             </div>
             <div class="form-group col-md-6">
               <label for="email_address" class="font-weight-bold">Email Address</label>
@@ -415,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <small class="form-text text-muted" id="file-name">
                 <?php 
                 if (!empty($user['resume'])) {
-                    echo basename($user['resume']) . ' (currently uploaded)';
+                    echo htmlspecialchars($user['resume']) . ' (currently uploaded)';
                 } else {
                     echo 'No file chosen (PDF or Word documents accepted)';
                 }
@@ -439,33 +459,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="../assets/js/bootstrap.js"></script>
 <script src="../assets/js/custom.js"></script>
 <script>
-  $(document).ready(function() {
-    // File upload name display
-    $('#resume').change(function() {
-      var fileName = $(this).val().split('\\').pop();
-      $('#file-name').text(fileName || 'No file chosen (PDF or Word documents accepted)');
-    });
-    
-    // Skills preview
-    $('#skills').on('input', function() {
-      var skills = $(this).val();
-      if (skills.trim() === '') {
-        $('#skillsDisplay').html('<p class="text-muted">No skills added yet.</p>');
-        return;
-      }
-      
-      var skillsArray = skills.split(',');
-      var skillsHtml = '';
-      
-      skillsArray.forEach(function(skill) {
-        if (skill.trim() !== '') {
-          skillsHtml += '<span class="skill-tag">' + skill.trim() + '</span>';
-        }
+    $(document).ready(function() {
+      // File upload name display
+      $('#resume').change(function() {
+        var fileName = $(this).val().split('\\').pop();
+        $('#file-name').text(fileName || 'No file chosen (PDF or Word documents accepted)');
       });
       
-      $('#skillsDisplay').html(skillsHtml);
+      // Skills preview
+      $('#skills').on('input', function() {
+        var skills = $(this).val();
+        if (skills.trim() === '') {
+          $('#skillsDisplay').html('<p class="text-muted">No skills added yet.</p>');
+          return;
+        }
+        
+        var skillsArray = skills.split(',');
+        var skillsHtml = '';
+        
+        skillsArray.forEach(function(skill) {
+          if (skill.trim() !== '') {
+            skillsHtml += '<span class="skill-tag">' + skill.trim() + '</span>';
+          }
+        });
+        
+        $('#skillsDisplay').html(skillsHtml);
+      });
+  
+      // Hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').alert('close');
+      }, 5000);
     });
-  });
 </script>
 </body>
 </html>

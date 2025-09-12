@@ -54,7 +54,6 @@
             <input type="checkbox" id="rememberMe">
             <label for="rememberMe">Remember me</label>
           </div>
-          <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
         </div>
 
         <div class="btn-group">
