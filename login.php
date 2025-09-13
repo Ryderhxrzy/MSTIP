@@ -15,6 +15,9 @@
   <!-- Custom CSS -->
   <link href="assets/css/register.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/sweetalert.css">
+
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
