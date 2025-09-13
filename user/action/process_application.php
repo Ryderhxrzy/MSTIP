@@ -2,6 +2,8 @@
 session_start();
 include '../../includes/db_config.php';
 
+date_default_timezone_set('Asia/Manila');
+
 // Load PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
