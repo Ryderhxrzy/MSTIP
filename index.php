@@ -1,7 +1,145 @@
+<?php
+  session_Start();
+  include_once 'includes/db_config.php';
+  
+  // Initialize search variables
+  $searchLocation = '';
+  $searchPosition = '';
+  $searchJobType = '';
+  $searchResults = [];
+  $hasSearch = false;
+  
+  // Check if search form was submitted
+  if ($_SERVER['REQUEST_METHOD'] === 'GET' && (isset($_GET['location']) || isset($_GET['position']) || isset($_GET['job_type']))) {
+    $hasSearch = true;
+    $searchLocation = isset($_GET['location']) ? trim($_GET['location']) : '';
+    $searchPosition = isset($_GET['position']) ? trim($_GET['position']) : '';
+    $searchJobType = isset($_GET['job_type']) ? trim($_GET['job_type']) : '';
+    
+    // Build the search query with OR conditions
+    $searchQuery = "
+      SELECT jl.*, r.region_code, r.region_name 
+      FROM job_listings jl
+      JOIN regions r ON jl.region_id = r.region_id
+      WHERE 1=0
+    ";
+    
+    $params = [];
+    $types = '';
+    $conditions = [];
+    
+    // Search by location - match with region_id
+    if (!empty($searchLocation)) {
+      $conditions[] = "r.region_id = ?";
+      $params[] = $searchLocation;
+      $types .= 'i';
+    }
+    
+    // Search by position - match job_title and job_position
+    if (!empty($searchPosition)) {
+      $conditions[] = "(jl.job_title LIKE ? OR jl.job_position LIKE ?)";
+      $positionParam = "%$searchPosition%";
+      $params[] = $positionParam;
+      $params[] = $positionParam;
+      $types .= 'ss';
+    }
+    
+    // Search by job type - match job_type_shift
+    if (!empty($searchJobType)) {
+      $conditions[] = "jl.job_type_shift LIKE ?";
+      $jobTypeParam = "%$searchJobType%";
+      $params[] = $jobTypeParam;
+      $types .= 's';
+    }
+    
+    // If we have conditions, join them with OR
+    if (!empty($conditions)) {
+      $searchQuery = "
+        SELECT jl.*, r.region_code, r.region_name 
+        FROM job_listings jl
+        JOIN regions r ON jl.region_id = r.region_id
+        WHERE " . implode(' OR ', $conditions) . "
+        ORDER BY jl.posted_date DESC
+      ";
+    }
+    
+    // Debug: Add this temporarily to see what's happening
+    // echo "Search Query: " . $searchQuery . "<br>";
+    // echo "Params: " . print_r($params, true) . "<br>";
+    // echo "Types: " . $types . "<br>";
+    
+    // Prepare and execute the search query
+    $stmt = $conn->prepare($searchQuery);
+    
+    if ($stmt && !empty($conditions)) {
+      if (!empty($params)) {
+        $stmt->bind_param($types, ...$params);
+      }
+      
+      $stmt->execute();
+      $result = $stmt->get_result();
+      
+      if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+          $searchResults[] = $row;
+        }
+      }
+      
+      $stmt->close();
+    }
+  }
+  
+  // Get featured jobs (only if not searching)
+  $featuredIds = [];
+  $featuredJobs = [];
+  $normalJobs = [];
+  
+  if (!$hasSearch) {
+    // Query featured jobs
+    $featuredQuery = "
+      SELECT jl.*, r.region_code, r.region_name
+      FROM job_listings jl
+      JOIN regions r ON jl.region_id = r.region_id
+      ORDER BY jl.posted_date DESC
+      LIMIT 2
+    ";
+    $featuredResult = $conn->query($featuredQuery);
+
+    if ($featuredResult->num_rows > 0) {
+      while ($row = $featuredResult->fetch_assoc()) {
+        $featuredIds[] = $row['job_id'];
+        $featuredJobs[] = $row;
+      }
+    }
+
+    // Query normal jobs excluding featured
+    $notInClause = "";
+    if (!empty($featuredIds)) {
+      $notInClause = "WHERE jl.job_id NOT IN (" . implode(',', $featuredIds) . ")";
+    }
+
+    $jobQuery = "
+      SELECT jl.*, r.region_code, r.region_name
+      FROM job_listings jl
+      JOIN regions r ON jl.region_id = r.region_id
+      $notInClause
+      ORDER BY jl.posted_date DESC
+      LIMIT 4
+    ";
+    $jobResult = $conn->query($jobQuery);
+
+    if ($jobResult->num_rows > 0) {
+      while ($row = $jobResult->fetch_assoc()) {
+        $normalJobs[] = $row;
+      }
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>Home - MSTIP Job Search</title>
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -24,48 +162,16 @@
   <link href="assets/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="assets/css/responsive.css" rel="stylesheet" />
+
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
+
   <div class="hero_area">
-    <!-- header section starts -->
-    <header class="header_section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-          <a class="navbar-brand" href="index.html">
-            <span>
-              <img src="assets/images/mstip_logo.png" class="mstip_logo" alt="MSTIP Logo" width="110" height="90">
-            </span>
-          </a>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="job.html">Jobs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="Team.html">About us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="login.html">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                  <span>Login</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </header>
+    <?php include 'includes/index_user_header.php'; ?>
     <!-- end header section -->
-
     <!-- slider section -->
     <section class="slider_section">
       <div class="container">
@@ -80,68 +186,47 @@
           <div class="container">
             <div class="row">
               <div class="col">
-                <form>
+                <form method="GET" action="">
                   <div class="form-row">
-                    <div class="form-group col-lg-3">
-                      <input type="text" class="form-control" id="inputPatientName" placeholder="Your Name" required>
+                    <div class="form-group col-lg-2">
+                      <input type="text" class="form-control" id="inputPatientName" placeholder="Input Your Name">
                     </div>
                     <div class="form-group col-lg-3">
-                      <select name="location" class="form-control wide" id="inputLocation" required>
+                      <select name="location" class="form-control wide" id="inputLocation">
                         <option value="">Select Location</option>
-                        <option value="NCR">NCR</option>
-                        <option value="CAR">CAR</option>
-                        <option value="REGION1">ILOCOS REGION 1</option>
-                        <option value="REGION2">CAGAYAN VALLEY REGION 2</option>
-                        <option value="REGION3">CENTRAL LUZON REGION 3</option>
-                        <option value="REGION4A">CALABARZON REGION 4 - A</option>
-                        <option value="REGION4B">MIMAROPA REGION 4 - B</option>
-                        <option value="REGION5">BICOL REGION 5</option>
-                        <option value="REGION6">WESTERN VISAYAS REGION 6</option>
-                        <option value="NIR">NEGROS ISLAND REGION (NIR)</option>
-                        <option value="REGION7">CENTRAL VISAYAS REGION 7</option>
-                        <option value="REGION8">EASTERN VISAYAS REGION 8</option>
-                        <option value="REGION9">ZAMBOANGA PENINSULA REGION 9</option>
-                        <option value="REGION10">NORTHERN MINDANAO REGION 10</option>
-                        <option value="REGION11">DAVAO REGION 11</option>
-                        <option value="REGION12">SOCCSKSARGEN REGION 12</option>
-                        <option value="REGION13">CARAGA REGION 13</option>
-                        <option value="BARMM">BARMM</option>
+                        <?php
+                        $sql = "SELECT region_id, region_code, region_name FROM regions ORDER BY region_name ASC";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $selected = ($searchLocation == $row['region_id']) ? 'selected' : '';
+                                echo '<option value="' . $row['region_id'] . '" ' . $selected . '>' . $row['region_name'] . '</option>';
+                            }
+                        }
+                        ?>
                       </select>
                     </div>
-                    <div class="form-group col-lg-3">
-                      <select name="position" class="form-control wide" id="inputPosition" required>
-                        <option value="">Select Position</option>
-                        <option value="web-designer">Web Designer</option>
-                        <option value="web-developer">Web Developer</option>
-                        <option value="graphic-designer">Graphic Designer</option>
-                        <option value="content-writer">Content Writer</option>
-                        <option value="encoder">Encoder</option>
-                        <option value="accounting">Accounting</option>
-                        <option value="creative-director">Creative Director</option>
-                        <option value="sales-agent">Sales Agent</option>
-                        <option value="content-creator">Content Creator</option>
-                        <option value="others">Others</option>
+                    <div class="form-group col-lg-2">
+                      <input type="text" class="form-control" name="position" placeholder="Position / Job Title" value="<?= htmlspecialchars($searchPosition) ?>">
+                    </div>
+                    <div class="form-group col-lg-2">
+                      <select name="job_type" class="form-control wide" id="inputJobType">
+                        <option value="">Job Type</option>
+                        <option value="Full-Time" <?= ($searchJobType == 'Full-Time') ? 'selected' : '' ?>>Full Time</option>
+                        <option value="Part-Time" <?= ($searchJobType == 'Part-Time') ? 'selected' : '' ?>>Part Time</option>
                       </select>
                     </div>
                     <div class="form-group col-lg-3">
                       <div class="btn-box">
-                        <button type="submit" class="btn">Submit Now</button>
+                        <button type="submit" class="btn">Search Now</button>
+                        <a href="?" class="btn btn-secondary ml-2">Clear</a>
                       </div>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-            <ul class="job_check_list">
-              <li>
-                <input id="checkbox_qu_02" type="checkbox" class="styled-checkbox">
-                <label for="checkbox_qu_02">Full Time</label>
-              </li>
-              <li>
-                <input id="checkbox_qu_03" type="checkbox" class="styled-checkbox">
-                <label for="checkbox_qu_03">Part Time</label>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -149,178 +234,171 @@
     <!-- end slider section -->
   </div>
 
+  <?php if ($hasSearch): ?>
+  <!-- Search Results Section -->
+  <section class="job_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>SEARCH RESULTS</h2>
+        <p><?= count($searchResults) ?> job(s) found</p>
+      </div>
+
+      <div class="job_container">
+        <div class="row">
+          <?php
+          if (!empty($searchResults)) {
+            foreach ($searchResults as $job) {
+              echo '
+              <div class="col-lg-6">
+                <div class="box">
+                  <div class="job_content-box">
+                    <div class="img-box">
+                      <img src="assets/'.htmlspecialchars($job['image_url']).'" alt="'.htmlspecialchars($job['company_name']).'">
+                    </div>
+                    <div class="detail-box">
+                      <h5>'.htmlspecialchars($job['company_name']).'</h5>
+                      <p>'.htmlspecialchars($job['job_title']).' / '.htmlspecialchars($job['slots_available']).' slot(s) only</p>
+                      <div class="detail-info">
+                        <h6>
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['region_code']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-money" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['salary_range']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['job_type_shift']).'</span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="option-box">
+                    <a href="user/job_detail.php?id='.$job['job_id'].'" class="apply-btn">View Details</a>
+                  </div>
+                </div>
+              </div>';
+            }
+          } else {
+            echo '<div class="col-12"><p class="text-center">No jobs found matching your search criteria.</p></div>';
+          }
+          ?>
+        </div>
+      </div>
+
+      <div class="btn-box">
+        <a href="user/job.php">View All Jobs</a>
+      </div>
+    </div>
+  </section>
+  <?php else: ?>
   <!-- job section -->
   <section class="job_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>FEATURED JOBS</h2>
       </div>
+      
+      <!-- Featured Jobs -->
       <div class="job_container">
         <h4 class="job_heading">Featured Jobs</h4>
         <div class="row">
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NTC.jpg" alt="National Telecommunication Commission">
-                </div>
-                <div class="detail-box">
-                  <h5>National Telecommunication Commission</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Manila</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱18,000 - ₱30,000</span>
-                    </h6>
+          <?php
+          if (!empty($featuredJobs)) {
+            foreach ($featuredJobs as $job) {
+              echo '
+              <div class="col-lg-6">
+                <div class="box">
+                  <div class="job_content-box">
+                    <div class="img-box">
+                      <img src="assets/'.htmlspecialchars($job['image_url']).'" alt="'.htmlspecialchars($job['company_name']).'">
+                    </div>
+                    <div class="detail-box">
+                      <h5>'.htmlspecialchars($job['company_name']).'</h5>
+                      <p>'.htmlspecialchars($job['job_title']).' / '.htmlspecialchars($job['slots_available']).' slot(s) only</p>
+                      <div class="detail-info">
+                        <h6>
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['region_code']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-money" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['salary_range']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['job_type_shift']).'</span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="option-box">
+                    <a href="user/job_detail.php?id='.$job['job_id'].'" class="apply-btn">View Details</a>
                   </div>
                 </div>
-              </div>
-              <div class="option-box">
-                <a href="NTCommission.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NIA.jpg" alt="National Irrigation Administration">
-                </div>
-                <div class="detail-box">
-                  <h5>National Irrigation Administration</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Metro Manila</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱20,000 - ₱35,000</span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="NIA.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
+              </div>';
+            }
+          } else {
+            echo '<p>No featured jobs available.</p>';
+          }
+          ?>
         </div>
       </div>
 
+      <!-- Normal Jobs -->
       <div class="job_container">
         <h4 class="job_heading">Jobs</h4>
         <div class="row">
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/NPO.jpg" alt="National Printing Office">
-                </div>
-                <div class="detail-box">
-                  <h5>National Printing Office</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Manila</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱15,000 - ₱39,000/mo</span>
-                    </h6>
+          <?php
+          if (!empty($normalJobs)) {
+            foreach ($normalJobs as $job) {
+              echo '
+              <div class="col-lg-6">
+                <div class="box">
+                  <div class="job_content-box">
+                    <div class="img-box">
+                      <img src="assets/'.htmlspecialchars($job['image_url']).'" alt="'.htmlspecialchars($job['company_name']).'">
+                    </div>
+                    <div class="detail-box">
+                      <h5>'.htmlspecialchars($job['company_name']).'</h5>
+                      <p>'.htmlspecialchars($job['job_title']).' / '.htmlspecialchars($job['slots_available']).' slot(s) only</p>
+                      <div class="detail-info">
+                        <h6>
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['region_code']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-money" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['salary_range']).'</span>
+                        </h6>
+                        <h6>
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                          <span>'.htmlspecialchars($job['job_type_shift']).'</span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="option-box">
+                    <a href="user/job_detail.php?id='.$job['job_id'].'" class="apply-btn">View Details</a>
                   </div>
                 </div>
-              </div>
-              <div class="option-box">
-                <a href="NPO.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Accenture.jpg" alt="Accenture">
-                </div>
-                <div class="detail-box">
-                  <h5>Accenture</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Metro Manila</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱20,000 - ₱50,000</span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Accenture.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Teleperformance.jpg" alt="Teleperformance">
-                </div>
-                <div class="detail-box">
-                  <h5>Teleperformance</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Mandaluyong</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱16,000 - ₱27,000</span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Teleperformance.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="box">
-              <div class="job_content-box">
-                <div class="img-box">
-                  <img src="images/Alorica.jpg" alt="Alorica">
-                </div>
-                <div class="detail-box">
-                  <h5>Alorica</h5>
-                  <div class="detail-info">
-                    <h6>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>Metro Manila</span>
-                    </h6>
-                    <h6>
-                      <i class="fa fa-money" aria-hidden="true"></i>
-                      <span>₱15,000 - ₱22,000</span>
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="option-box">
-                <a href="Alorica.html" class="apply-btn">Apply Now</a>
-              </div>
-            </div>
-          </div>
+              </div>';
+            }
+          } else {
+            echo '<p>No jobs available.</p>';
+          }
+          ?>
         </div>
       </div>
+
       <div class="btn-box">
-        <a href="job.html">View All</a>
+        <a href="user/job.php">View All</a>
       </div>
     </div>
   </section>
+  <?php endif; ?>
+
   <!-- end job section -->
 
   <!-- expert section -->
@@ -335,7 +413,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/MAANDREA.png" alt="Ma. Andrea">
+                <img class="img-fluid" src="assets/images/MAANDREA.png" alt="Ma. Andrea">
               </div>
               <div class="team-content">
                 <h3 class="name">Ma. Andrea</h3>
@@ -350,7 +428,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/VINCEP.png" alt="Vince Peter">
+                <img class="img-fluid" src="assets/images/VINCEP.png" alt="Vince Peter">
               </div>
               <div class="team-content">
                 <h3 class="name">Vince Peter</h3>
@@ -365,7 +443,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/FAITHANN.png" alt="Faith Ann">
+                <img class="img-fluid" src="assets/images/FAITHANN.png" alt="Faith Ann">
               </div>
               <div class="team-content">
                 <h3 class="name">Faith Ann</h3>
@@ -380,7 +458,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="our-team">
               <div class="picture">
-                <img class="img-fluid" src="images/ADRIAN1.png" alt="Adrian">
+                <img class="img-fluid" src="assets/images/ADRIAN1.png" alt="Adrian">
               </div>
               <div class="team-content">
                 <h3 class="name">Adrian</h3>
@@ -398,83 +476,14 @@
   </section>
   <!-- end expert section -->
 
-  <!-- info section -->
-  <section class="info_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2 info_links">
-          <h4>Menu</h4>
-          <ul>
-            <li class="active">
-              <a href="index.html">Home</a>
-            </li>
-            <li>
-              <a href="Team.html">About</a>
-            </li>
-            <li>
-              <a href="job.html">Jobs</a>
-            </li>
-            <li>
-              <a href="Team.html">Our Team</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h4>Jobs</h4>
-          <p>
-            MSTIP organizes events like "Find Your Calling: Career Exploration" to help students discover their interests and explore potential career paths.
-          </p>
-        </div>
-        <div class="col-md-3">
-          <div class="info_social">
-            <h4>Social Link</h4>
-            <div class="social_container">
-              <div>
-                <a href="#" aria-label="Facebook">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-              </div>
-              <div>
-                <a href="#" aria-label="Instagram">
-                  <i class="fa fa-instagram" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end info_section -->
+    <?php include_once 'includes/index_user_footer.php' ?>
 
-  <!-- JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-
-  <script>
-    // Initialize nice select
-    $(document).ready(function() {
-      $('select').niceSelect();
-      
-      // Form submission handler
-      $('form').on('submit', function(e) {
-        e.preventDefault();
-        
-        const name = $('#inputPatientName').val();
-        const location = $('#inputLocation').val();
-        const position = $('#inputPosition').val();
-        
-        if (!name || !location || !position) {
-          alert('Please fill in all required fields.');
-          return;
-        }
-        
-        alert('Search submitted successfully! Results will be displayed.');
-        // Add your form submission logic here
-      });
-    });
-  </script>
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <!-- custom js -->
+    <script src="assets/js/custom.js"></script>
 </body>
-
 </html>

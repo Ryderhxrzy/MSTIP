@@ -190,16 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .edit-toggle:hover {
       color: #4e73df;
     }
-    .btn-save {
-      background: linear-gradient(45deg, #4e73df, #224abe);
-      border: none;
-      padding: 10px 25px;
-      font-weight: 600;
-      border-radius: 6px;
-    }
-    .btn-save:hover {
-      background: linear-gradient(45deg, #224abe, #4e73df);
-    }
+    
     .resume-preview {
       border: 1px solid #dee2e6;
       border-radius: 8px;
@@ -230,18 +221,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     .resume-details {
       flex-grow: 1;
-    }
-    .apply-btns {
-      background: linear-gradient(45deg, #4e73df, #224abe);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      font-weight: 600;
-      border-radius: 6px;
-    }
-    .apply-btns:hover {
-      background: linear-gradient(45deg, #224abe, #4e73df);
-      color: white;
     }
   </style>
 </head>
