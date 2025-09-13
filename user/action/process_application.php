@@ -8,9 +8,8 @@ date_default_timezone_set('Asia/Manila');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../../vendor/autoload.php'; // Adjust path as needed
+require '../../vendor/autoload.php';
 
-// Set content type for JSON response
 header('Content-Type: application/json');
 
 // Check if user is logged in
@@ -19,7 +18,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit();
 }
 
-// Check if required data is provided
 if (!isset($_POST['job_id']) || !isset($_POST['user_id']) || empty($_POST['job_id']) || empty($_POST['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Missing required information']);
     exit();
@@ -30,7 +28,6 @@ $user_id = $_POST['user_id'];
 $cover_letter = isset($_POST['cover_letter']) ? trim($_POST['cover_letter']) : null;
 
 try {
-    // Check if user has already applied for this job
     $check_sql = "SELECT user_id FROM applications WHERE job_id = ? AND user_id = ?";
     $check_stmt = $conn->prepare($check_sql);
     $check_stmt->bind_param("is", $job_id, $user_id);
@@ -42,7 +39,6 @@ try {
         exit();
     }
     
-    // Get user information for email
     $user_sql = "SELECT first_name, last_name, email_address FROM user_information WHERE user_id = ?";
     $user_stmt = $conn->prepare($user_sql);
     $user_stmt->bind_param("s", $user_id);
@@ -55,7 +51,6 @@ try {
         exit();
     }
     
-    // Get job information for email
     $job_sql = "SELECT job_title, company_name FROM job_listings WHERE job_id = ?";
     $job_stmt = $conn->prepare($job_sql);
     $job_stmt->bind_param("i", $job_id);
@@ -68,19 +63,16 @@ try {
         exit();
     }
     
-    // Insert application into applications table
     $insert_sql = "INSERT INTO applications (user_id, job_id, application_date, status) VALUES (?, ?, NOW(), 'Pending')";
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("si", $user_id, $job_id);
     
     if ($insert_stmt->execute()) {
-        // SMTP Configuration
         $mail = new PHPMailer(true);
         
         try {
-            // Server settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com'; // Your SMTP server
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'mstipjobsearch@gmail.com';
             $mail->Password = 'ltvaaptdhgpvjqja';
@@ -89,12 +81,10 @@ try {
             
             // include '../../includes/mail_config.php';
             
-            // Recipients
             $mail->setFrom('noreply@mstipjobsearch.com', 'MSTIP Job Search');
             $mail->addAddress($user_data['email_address'], $user_data['first_name'] . ' ' . $user_data['last_name']);
             $mail->addReplyTo('hr@mstipjobsearch.com', 'HR Department');
             
-            // Content
             $mail->isHTML(true);
             $mail->Subject = "Application Confirmation - " . $job_data['job_title'];
             
@@ -162,21 +152,18 @@ try {
             
             $mail->Body = $message;
             
-            // Send email
             if ($mail->send()) {
                 echo json_encode([
                     'success' => true, 
                     'message' => 'Application submitted successfully! A confirmation email has been sent to your email address.'
                 ]);
             } else {
-                // Application was saved but email failed - still consider it successful
                 echo json_encode([
                     'success' => true, 
                     'message' => 'Application submitted successfully! However, we could not send a confirmation email. Please check your application status in your profile.'
                 ]);
             }
         } catch (Exception $e) {
-            // Email sending failed but application was saved
             error_log("Email sending failed: " . $mail->ErrorInfo);
             echo json_encode([
                 'success' => true, 
@@ -190,7 +177,6 @@ try {
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
 } finally {
-    // Close all prepared statements
     if (isset($check_stmt)) $check_stmt->close();
     if (isset($user_stmt)) $user_stmt->close();
     if (isset($job_stmt)) $job_stmt->close();

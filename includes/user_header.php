@@ -32,6 +32,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="about-us.php">About Us</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-application.php">My Application</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="profile-avatar-small mr-2">
